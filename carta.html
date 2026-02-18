@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AcantiladoBar | Carta</title>
+  <meta name="description" content="Carta digital de AcantiladoBar: picadas, tapeo y tragos.">
+
+  <link rel="icon" href="https://i.postimg.cc/90q0bnTQ/acantilado-bar.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+  <style>
+    :root{
+      --deep:#0f3057;
+      --ocean:#00587a;
+      --aqua:#00a8a8;
+      --sand:#f4f1de;
+      --white:#ffffff;
+      --text:#1c1c1c;
+      --radius:20px;
+      --shadow:0 12px 30px rgba(0,0,0,.10);
+      --line: rgba(0,88,122,.14);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Poppins,sans-serif;
+      background: linear-gradient(180deg, #ffffff 0%, var(--sand) 55%, var(--sand) 100%);
+      color:var(--text);
+    }
+
+    .wrap{width:min(1100px,92%);margin:auto;}
+
+    /* Top */
+    .top{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background: rgba(255,255,255,.92);
+      border-bottom: 2px solid rgba(0,88,122,.20);
+      backdrop-filter: blur(10px);
+    }
+    .top-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:12px 0;
+      flex-wrap:wrap;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 250px;
+    }
+    .brand img{
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      object-fit:cover;
+      box-shadow: 0 8px 20px rgba(0,0,0,.18);
+      border:2px solid rgba(0,88,122,.15);
+    }
+    .brand b{
+      font-family:"Playfair Display",serif;
+      font-size:20px;
+      color:var(--deep);
+      letter-spacing:.2px;
+    }
+
+    .top-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:900;
+      border:2px solid rgba(0,88,122,.25);
+      color:var(--deep);
+      background: rgba(255,255,255,.85);
+      transition:.2s;
+      font-size:13px;
+    }
+    .btn:hover{
+      background: var(--ocean);
+      border-color: var(--ocean);
+      color:#fff;
+      transform: translateY(-1px);
+    }
+    .btn.primary{
+      background: var(--aqua);
+      border-color: var(--aqua);
+      color:#fff;
+      box-shadow: 0 10px 22px rgba(0,168,168,.18);
+    }
+    .btn.primary:hover{
+      background:#008c8c;
+      border-color:#008c8c;
+    }
+
+    /* Hero */
+    .hero{
+      padding:46px 0 18px;
+      text-align:center;
+    }
+    .hero .logo-big{
+      width:92px;
+      height:92px;
+      border-radius:50%;
+      object-fit:cover;
+      box-shadow: 0 14px 34px rgba(0,0,0,.18);
+      border: 3px solid rgba(0,88,122,.18);
+      margin-bottom:14px;
+    }
+    .hero h1{
+      font-family:"Playfair Display",serif;
+      color:var(--deep);
+      margin:0 0 8px;
+      font-size:40px;
+      letter-spacing:.3px;
+    }
+    .hero p{
+      margin:0 auto;
+      max-width: 760px;
+      color:#555;
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    /* Chips */
+    .cats{
+      margin:22px 0 8px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background: rgba(0,88,122,.08);
+      border:1px solid rgba(0,88,122,.16);
+      color:var(--deep);
+      font-weight:900;
+      text-decoration:none;
+      transition:.2s;
+      font-size:13px;
+    }
+    .chip:hover{
+      background: rgba(0,88,122,.15);
+      transform: translateY(-1px);
+    }
+
+    section{ padding:26px 0; }
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:16px;
+      flex-wrap:wrap;
+    }
+    .section-title h2{
+      margin:0;
+      font-family:"Playfair Display",serif;
+      color:var(--deep);
+      letter-spacing:.6px;
+      font-size:26px;
+    }
+    .hint{
+      font-size:12px;
+      color:#666;
+      font-weight:800;
+      background: rgba(255,255,255,.6);
+      border:1px solid var(--line);
+      padding:8px 10px;
+      border-radius:999px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(290px, 1fr));
+      gap:16px;
+    }
+
+    .card{
+      background: rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      border-top:5px solid var(--aqua);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+
+    .item{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 0;
+      border-bottom:1px dashed rgba(0,88,122,.18);
+    }
+    .item:last-child{border-bottom:none}
+
+    .item h3{
+      margin:0;
+      color:var(--deep);
+      font-size:14px;
+      font-weight:900;
+      line-height:1.4;
+    }
+    .desc{
+      margin:5px 0 0;
+      color:#666;
+      font-size:12.5px;
+      line-height:1.6;
+      max-width: 94%;
+    }
+    .price{
+      font-weight:900;
+      color:var(--deep);
+      white-space:nowrap;
+      font-size:13px;
+      padding-left:6px;
+    }
+
+    footer{
+      margin-top:26px;
+      background: var(--deep);
+      color:#fff;
+      text-align:center;
+      padding:26px 14px;
+      font-weight:700;
+    }
+
+    .wa{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      width:60px;height:60px;
+      border-radius:50%;
+      background:#25D366;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:26px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.26);
+      text-decoration:none;
+      z-index:80;
+      transition:.2s;
+    }
+    .wa:hover{transform:translateY(-2px)}
+
+    @media(max-width:768px){
+      .hero h1{font-size:30px}
+      .brand{min-width:auto}
+      .top-actions .btn{font-size:12px;padding:9px 12px}
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="top">
+  <div class="wrap top-inner">
+    <div class="brand">
+      <img src="https://i.postimg.cc/90q0bnTQ/acantilado-bar.jpg" alt="Logo AcantiladoBar">
+      <b>AcantiladoBar</b>
+    </div>
+
+    <div class="top-actions">
+      <a class="btn" href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+      <a class="btn primary" href="#tapeo"><i class="fa-solid fa-book-open"></i> Ver Menú</a>
+      <a class="btn" href="https://instagram.com/acantiladobar" target="_blank" rel="noopener">
+        <i class="fa-brands fa-instagram"></i> Instagram
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <img class="logo-big" src="https://i.postimg.cc/90q0bnTQ/acantilado-bar.jpg" alt="AcantiladoBar">
+    <h1>Carta Digital</h1>
+    <p>Picadas, Tapeo & Tragos en Camet Norte. Consultá por opciones del día y promos.</p>
+
+    <div class="cats">
+      <a class="chip" href="#tapeo"><i class="fa-solid fa-bowl-food"></i> Tapeo</a>
+      <a class="chip" href="#picadas"><i class="fa-solid fa-utensils"></i> Picadas</a>
+      <a class="chip" href="#entrepanes"><i class="fa-solid fa-burger"></i> Entre panes</a>
+      <a class="chip" href="#alplato"><i class="fa-solid fa-plate-wheat"></i> Al plato</a>
+      <a class="chip" href="#pizzas"><i class="fa-solid fa-pizza-slice"></i> Pizzas</a>
+      <a class="chip" href="#ensalada"><i class="fa-solid fa-leaf"></i> Ensalada</a>
+      <a class="chip" href="#postres"><i class="fa-solid fa-ice-cream"></i> Postres</a>
+      <a class="chip" href="#bebidas"><i class="fa-solid fa-glass-water"></i> Bebidas</a>
+      <a class="chip" href="#vinos"><i class="fa-solid fa-wine-glass"></i> Vinos</a>
+      <a class="chip" href="#tragos"><i class="fa-solid fa-martini-glass"></i> Tragos</a>
+    </div>
+  </div>
+
+  <!-- TAPE0 -->
+  <section id="tapeo">
+    <div class="section-title">
+      <h2>Tapeo</h2>
+      <div class="hint">Para compartir</div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="item"><div><h3>Papas Fritas Rústicas</h3></div><div class="price">$ 7250</div></div>
+        <div class="item"><div><h3>Papas con Cheddar</h3></div><div class="price">$ 7950</div></div>
+        <div class="item"><div><h3>Papas Bondiola desmechada</h3><p class="desc">Cheddar y Verdeo</p></div><div class="price">$ 9900</div></div>
+        <div class="item"><div><h3>Papas con Huevo Frito</h3></div><div class="price">$ 8900</div></div>
+        <div class="item"><div><h3>Muzzarellitas</h3></div><div class="price">$ 9800</div></div>
+        <div class="item"><div><h3>Nugguets</h3></div><div class="price">$ 10200</div></div>
+        <div class="item"><div><h3>Aros de Cebolla</h3></div><div class="price">$ 9800</div></div>
+        <div class="item"><div><h3>Buñuelos de acelga</h3></div><div class="price">$ 9800</div></div>
+        <div class="item"><div><h3>Rabas</h3></div><div class="price">$ 20000</div></div>
+        <div class="item"><div><h3>Media porción de Rabas</h3></div><div class="price">$ 13000</div></div>
+        <div class="item"><div><h3>Langostinos empanados</h3></div><div class="price">$ 19300</div></div>
+        <div class="item"><div><h3>Mejillones a la provenzal</h3></div><div class="price">$ 16000</div></div>
+        <div class="item"><div><h3>Merlucitas</h3></div><div class="price">$ 17000</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PICADAS -->
+  <section id="picadas">
+    <div class="section-title">
+      <h2>Picadas</h2>
+      <div class="hint">Ideal para 2+</div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="item"><div><h3>Rabas y Papas</h3><p class="desc">Rabas y Papas Fritas + salsita y Limón</p></div><div class="price">$ 17000</div></div>
+        <div class="item"><div><h3>De Mar</h3><p class="desc">Rabas, Langostinos, Merlucitas y Papas Fritas + 2 salsitas y Limón</p></div><div class="price">$ 32500</div></div>
+        <div class="item"><div><h3>De Mar XL</h3><p class="desc">Rabas, Langostinos, Merlucitas, Calamares y Mejillones a la provenzal + Papas Fritas + 2 salsitas y Limón</p></div><div class="price">$ 78000</div></div>
+        <div class="item"><div><h3>Atardecer</h3><p class="desc">Focaccia con crudo y rúcula + Tostados de jamón y queso + bruschetas con muzza y tomates cherry confitados</p></div><div class="price">$ 18900</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTRE PANES -->
+  <section id="entrepanes">
+    <div class="section-title">
+      <h2>Entre Panes</h2>
+      <div class="hint">Incluyen papas</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="item"><div><h3>Hamburguesa con Queso</h3><p class="desc">Medallón de carne o veggie con Cheddar o Dambo + papas</p></div><div class="price">$ 11100</div></div>
+        <div class="item"><div><h3>Hamburguesa Americana</h3><p class="desc">Carne + Cheddar + Panceta + Barbacoa + papas</p></div><div class="price">$ 14000</div></div>
+        <div class="item"><div><h3>Hamburguesa Argenta</h3><p class="desc">Carne o veggie + lechuga + pepino + morrón asado + queso dambo + papas</p></div><div class="price">$ 14000</div></div>
+        <div class="item"><div><h3>Hamburguesa Acantilado</h3><p class="desc">Carne o veggie + Cheddar + cebolla caramelizada + huevo frito + papas</p></div><div class="price">$ 14000</div></div>
+        <div class="item"><div><h3>Hamburguesa Vegetariana</h3><p class="desc">Medallón de lentejas + rúcula + cebolla caramelizada + queso dambo + papas</p></div><div class="price">$ 14000</div></div>
+        <div class="item"><div><h3>Pulled Pork</h3><p class="desc">Bondiola desmechada con coleslaw en pan de papa</p></div><div class="price">$ 16700</div></div>
+        <div class="item"><div><h3>Focaccia</h3><p class="desc">Jamón crudo, rúcula y queso untable especiado con albahaca</p></div><div class="price">$ 8700</div></div>
+        <div class="item"><div><h3>Jamón y Queso</h3><p class="desc">Tostado en pan árabe</p></div><div class="price">$ 7500</div></div>
+        <div class="item"><div><h3>Solo Queso</h3><p class="desc">Tostado en pan árabe de queso dambo</p></div><div class="price">$ 7100</div></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title" style="margin-bottom:10px;">
+          <h2 style="font-size:22px;margin:0;">Adicionales</h2>
+          <span class="hint">Sumale</span>
+        </div>
+        <div class="item"><div><h3>Medallón de carne o lentejas extra</h3></div><div class="price">$ 2300</div></div>
+        <div class="item"><div><h3>Queso Dambo o Cheddar o Huevo</h3></div><div class="price">$ 1150</div></div>
+        <div class="item"><div><h3>Tomate o lechuga o cebolla</h3></div><div class="price">$ 1150</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AL PLATO + PIZZAS -->
+  <section id="alplato">
+    <div class="section-title">
+      <h2>Al Plato</h2>
+      <div class="hint">Acompañamientos disponibles</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="item"><div><h3>Milanesa Sola</h3></div><div class="price">$ 14300</div></div>
+        <div class="item"><div><h3>Milanesa Napolitana</h3><p class="desc">Salsa de tomate y muzza</p></div><div class="price">$ 17100</div></div>
+        <div class="item"><div><h3>Milanesa con Jamón</h3><p class="desc">Salsa de tomate, muzza y jamón</p></div><div class="price">$ 17100</div></div>
+        <div class="item"><div><h3>Milanesa Fugazzetta</h3><p class="desc">Cebolla y muzza</p></div><div class="price">$ 17100</div></div>
+        <div class="item"><div><h3>Milanesa de Fugazzetta y Jamón</h3><p class="desc">Cebolla, muzza y jamón</p></div><div class="price">$ 17600</div></div>
+        <div class="item"><div><h3>Milanesa Acantilado</h3><p class="desc">Cheddar, cebolla y huevos fritos</p></div><div class="price">$ 17600</div></div>
+        <div class="item"><div><h3>Milanesa de Roquefort</h3></div><div class="price">$ 17800</div></div>
+        <div class="item"><div><h3>Matambrito de Ternera a la Pizza</h3></div><div class="price">$ 20500</div></div>
+        <div class="item"><div><h3>Matambrito de Ternera a la Fugazzetta</h3></div><div class="price">$ 20500</div></div>
+        <div class="item"><div><h3>Filet de Merluza a la romana</h3><p class="desc">Acompañadas con puré de papas o papas fritas o ensalada (lechuga, tomate y cebolla)</p></div><div class="price">$ 17800</div></div>
+      </div>
+
+      <div class="card" id="pizzas">
+        <div class="section-title" style="margin-bottom:10px;">
+          <h2 style="font-size:22px;margin:0;">Pizzas</h2>
+          <span class="hint">Clásicas</span>
+        </div>
+        <div class="item"><div><h3>Muzzarella</h3></div><div class="price">$ 12900</div></div>
+        <div class="item"><div><h3>Napolitana</h3></div><div class="price">$ 15200</div></div>
+        <div class="item"><div><h3>Huevo</h3></div><div class="price">$ 15200</div></div>
+        <div class="item"><div><h3>Jamón Cocido</h3></div><div class="price">$ 15600</div></div>
+        <div class="item"><div><h3>Rúcula</h3></div><div class="price">$ 15100</div></div>
+        <div class="item"><div><h3>Jamón Cocido y Huevo</h3></div><div class="price">$ 17500</div></div>
+        <div class="item"><div><h3>Jamón Crudo y Rúcula</h3></div><div class="price">$ 21200</div></div>
+        <div class="item"><div><h3>Roquefort</h3></div><div class="price">$ 18600</div></div>
+        <div class="item"><div><h3>Jamón Cocido, Huevo y Morrón</h3></div><div class="price">$ 21200</div></div>
+        <div class="item"><div><h3>Calabresa</h3></div><div class="price">$ 20200</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENSALADA + INFANTIL + SIN TACC + POSTRES -->
+  <section id="ensalada">
+    <div class="section-title">
+      <h2>Arma tu Ensalada</h2>
+      <div class="hint">Elegí pasos</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="item">
+          <div>
+            <h3>Paso 1</h3>
+            <p class="desc">Arroz, lechuga, zanahoria, rúcula, repollo blanco, repollo morado</p>
+          </div>
+          <div class="price"></div>
+        </div>
+
+        <div class="item">
+          <div>
+            <h3>Paso 2</h3>
+            <p class="desc">Atún, huevo, jamón cocido, pollo, cubos de queso, jamón crudo</p>
+          </div>
+          <div class="price"></div>
+        </div>
+
+        <div class="item">
+          <div>
+            <h3>Paso 3</h3>
+            <p class="desc">Tomate cherry, pepino, choclo, crutones, aceitunas, arvejas, cebolla</p>
+          </div>
+          <div class="price"></div>
+        </div>
+
+        <div class="item"><div><h3>2 ingredientes <span class="desc">(acompañamiento)</span></h3></div><div class="price">$ 4950</div></div>
+        <div class="item"><div><h3>4 ingredientes</h3></div><div class="price">$ 8900</div></div>
+        <div class="item"><div><h3>6 ingredientes</h3></div><div class="price">$ 11900</div></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title" style="margin-bottom:10px;">
+          <h2 style="font-size:22px;margin:0;">Menú Infantil</h2>
+          <span class="hint">Para peques</span>
+        </div>
+        <div class="item"><div><h3>Hamburguesa con Papas</h3></div><div class="price">$ 9900</div></div>
+        <div class="item"><div><h3>Nugguets con Papas</h3></div><div class="price">$ 8500</div></div>
+        <div class="item"><div><h3>Cazuela de Fideos con crema o Manteca y Queso</h3></div><div class="price">$ 8500</div></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title" style="margin-bottom:10px;">
+          <h2 style="font-size:22px;margin:0;">Menú Sin TACC</h2>
+          <span class="hint">Apto</span>
+        </div>
+        <div class="item"><div><h3>Tartines de Calabaza y Choclo <span class="desc">(2 unidades)</span></h3></div><div class="price">$ 12400</div></div>
+        <div class="item"><div><h3>Pizza de Muzzarella individual</h3></div><div class="price">$ 10000</div></div>
+        <div class="item"><div><h3>Empanadas de Carne o Verdura o Pollo <span class="desc">(3 unidades)</span></h3></div><div class="price">$ 12800</div></div>
+      </div>
+
+      <div class="card" id="postres">
+        <div class="section-title" style="margin-bottom:10px;">
+          <h2 style="font-size:22px;margin:0;">Postres</h2>
+          <span class="hint">Dulce</span>
+        </div>
+        <div class="item"><div><h3>Flan casero con Dulce de leche y Crema</h3></div><div class="price">$ 5700</div></div>
+        <div class="item"><div><h3>Brownie con helado de Americana</h3></div><div class="price">$ 6900</div></div>
+        <div class="item"><div><h3>Helado de Americana <span class="desc">(2 bochas)</span></h3></div><div class="price">$ 4900</div></div>
+        <div class="item"><div><h3>Bombón escocés</h3></div><div class="price">$ 5300</div></div>
+        <div class="item"><div><h3>Frutillas con crema</h3></div><div class="price">$ 5300</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEBIDAS / CERVEZAS / ESPUMANTES -->
+  <section id="bebidas">
+    <div class="section-title">
+      <h2>Bebidas</h2>
+      <div class="hint">Sin alcohol</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="item"><div><h3>Agua sin gas</h3></div><div class="price">$ 2700</div></div>
+        <div class="item"><div><h3>Agua con gas</h3></div><div class="price">$ 2700</div></div>
+        <div class="item"><div><h3>Aguas saborizadas</h3><p class="desc">Manzana, Pomelo y Naranja</p></div><div class="price">$ 3100</div></div>
+        <div class="item"><div><h3>Coca cola - Sprite - Fanta</h3></div><div class="price">$ 3700</div></div>
+        <div class="item"><div><h3>Limonada con menta y jengibre <span class="desc">x500cc</span></h3></div><div class="price">$ 4000</div></div>
+        <div class="item"><div><h3>Limonada con menta y jengibre <span class="desc">botella</span></h3></div><div class="price">$ 7000</div></div>
+        <div class="item"><div><h3>Limonada de Frutos Rojos <span class="desc">x500cc</span></h3></div><div class="price">$ 4500</div></div>
+        <div class="item"><div><h3>Limonada de Frutos Rojos <span class="desc">botella</span></h3></div><div class="price">$ 8000</div></div>
+        <div class="item"><div><h3>Exprimido de Naranja <span class="desc">copa 500cc</span></h3></div><div class="price">$ 4500</div></div>
+        <div class="item"><div><h3>Licuados frutales <span class="desc">x500cc</span></h3></div><div class="price">$ 4000</div></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title" style="margin-bottom:10px;">
+          <h2 style="font-size:22px;margin:0;">Cervezas</h2>
+          <span class="hint">Lata / Botella</span>
+        </div>
+        <div class="item"><div><h3>Cerveza Artesanal Alzheimer <span class="desc">Pinta 500cc</span></h3></div><div class="price"></div></div>
+        <div class="item"><div><h3>• Blonde</h3></div><div class="price">$ 4500</div></div>
+        <div class="item"><div><h3>• Scottish o Stout</h3></div><div class="price">$ 4800</div></div>
+        <div class="item"><div><h3>• IPA</h3></div><div class="price">$ 5200</div></div>
+        <div class="item"><div><h3>Cerveza Andes Origen <span class="desc">Lata 473cc</span></h3></div><div class="price">$ 4900</div></div>
+        <div class="item"><div><h3>Cerveza Guinness</h3></div><div class="price">$ 5900</div></div>
+        <div class="item"><div><h3>Cerveza Corona <span class="desc">Botella 710cc</span></h3></div><div class="price">$ 9200</div></div>
+        <div class="item"><div><h3>Cerveza Patagonia <span class="desc">Botella 710cc</span></h3></div><div class="price">$ 9500</div></div>
+
+        <div class="item">
+          <div>
+            <h3>Cervezas Artesanal Sin TACC</h3>
+            <p class="desc">Kolsch - Honey - Cream ale</p>
+          </div>
+          <div class="price">$ 7900</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title" style="margin-bottom:10px;">
+          <h2 style="font-size:22px;margin:0;">Espumantes</h2>
+          <span class="hint">Brindis</span>
+        </div>
+        <div class="item"><div><h3>Federico De Alvear</h3></div><div class="price">$ 12600</div></div>
+        <div class="item"><div><h3>Bianchi Extra brut</h3></div><div class="price">$ 15500</div></div>
+        <div class="item"><div><h3>La Linda Extra brut</h3></div><div class="price">$ 19900</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VINOS + TRAGOS -->
+  <section id="vinos">
+    <div class="section-title">
+      <h2>Vinos</h2>
+      <div class="hint">Tintos y blancos</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="item"><div><h3>Copa de vino tinto/blanco de la casa</h3></div><div class="price">$ 5000</div></div>
+        <div class="item"><div><h3>Vino Tinto Otro Loco Más Malbec</h3></div><div class="price">$ 10350</div></div>
+        <div class="item"><div><h3>Vino Tinto Familia Gascon Malbec</h3></div><div class="price">$ 12100</div></div>
+        <div class="item"><div><h3>Vino Tinto Cordero con piel de Lobo Malbec</h3></div><div class="price">$ 12500</div></div>
+        <div class="item"><div><h3>Vino Tinto Nicasia Malbec</h3></div><div class="price">$ 21800</div></div>
+        <div class="item"><div><h3>Vino Tinto Emilia Malbec</h3></div><div class="price">$ 17400</div></div>
+        <div class="item"><div><h3>Vino Blanco Norton Cosecha Tardía Dulce</h3></div><div class="price">$ 10350</div></div>
+        <div class="item"><div><h3>Vino Blanco Estancia Mendoza Dulce Chenin</h3></div><div class="price">$ 10350</div></div>
+        <div class="item"><div><h3>Vino Blanco Nicasia Blanc Des Blancs</h3></div><div class="price">$ 21800</div></div>
+      </div>
+
+      <div class="card" id="tragos">
+        <div class="section-title" style="margin-bottom:10px;">
+          <h2 style="font-size:22px;margin:0;">Tragos / Aperitivos</h2>
+          <span class="hint">Clásicos</span>
+        </div>
+        <div class="item"><div><h3>Gin Tónic con limón y pepino</h3></div><div class="price">$ 6500</div></div>
+        <div class="item"><div><h3>Gin Tónic con frutos rojos o hibiscus</h3></div><div class="price">$ 7200</div></div>
+        <div class="item"><div><h3>Gin Tónic Bombay con limón y pepino</h3></div><div class="price">$ 8400</div></div>
+        <div class="item"><div><h3>Gin Tónic Bombay con frutos rojos o hibiscus</h3></div><div class="price">$ 9000</div></div>
+        <div class="item"><div><h3>Fernet Branca</h3></div><div class="price">$ 6500</div></div>
+        <div class="item"><div><h3>Daikiri <span class="desc">Frutilla / Durazno / Ananá</span></h3></div><div class="price">$ 6300</div></div>
+        <div class="item"><div><h3>Campari</h3></div><div class="price">$ 6200</div></div>
+        <div class="item"><div><h3>Gancia</h3></div><div class="price">$ 6200</div></div>
+        <div class="item"><div><h3>Caipiriña de limas con cachaça</h3></div><div class="price">$ 6800</div></div>
+        <div class="item"><div><h3>Caipirosca de limas con vodka</h3></div><div class="price">$ 6800</div></div>
+        <div class="item"><div><h3>Caipirosca de frutos rojos con vodka</h3></div><div class="price">$ 7300</div></div>
+        <div class="item"><div><h3>Vermú con naranja y tónica</h3></div><div class="price">$ 6200</div></div>
+        <div class="item"><div><h3>Vermú con limón y soda</h3></div><div class="price">$ 6200</div></div>
+        <div class="item"><div><h3>Mojito de menta y limas</h3></div><div class="price">$ 6800</div></div>
+        <div class="item"><div><h3>Negroni</h3></div><div class="price">$ 10800</div></div>
+        <div class="item"><div><h3>Aperol Spritz</h3></div><div class="price">$ 9800</div></div>
+        <div class="item"><div><h3>Whisky</h3></div><div class="price">$ —</div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © <span id="year"></span> AcantiladoBar
+</footer>
+
+<a class="wa" href="https://wa.me/message/6NP66RN7DLMSO1" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,11 @@
+.btn-carta{
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:999px;
+  background: linear-gradient(135deg, #7a4b1a, #5e3a12);
+  color:#fff;
+  font-weight:800;
+  text-decoration:none;
+  box-shadow: 0 12px 26px rgba(122,75,26,.25);
+}
+.btn-carta:hover{ transform: translateY(-1px); }

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AcantiladoBar | Frente al Mar</title>
+
+<link rel="icon" href="https://i.postimg.cc/90q0bnTQ/acantilado-bar.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<style>
+:root{
+  --deep:#0f3057;
+  --ocean:#00587a;
+  --aqua:#00a8a8;
+  --sand:#f4f1de;
+  --radius:20px;
+  --shadow:0 12px 30px rgba(0,0,0,.10);
+}
+
+*{box-sizing:border-box}
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  font-family:Poppins,sans-serif;
+  background:var(--sand);
+  color:#1c1c1c;
+}
+
+.wrap{width:min(1100px,92%);margin:auto;}
+
+/* HEADER TRANSPARENTE */
+.topbar{
+  position:absolute;         /* clave: encima del hero */
+  top:0; left:0; right:0;
+  z-index:60;
+  background:transparent;
+  border-bottom:1px solid rgba(255,255,255,.18);
+  transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, backdrop-filter .25s ease;
+}
+.topbar.scrolled{
+  position:fixed;            /* al scrollear queda fijo */
+  background:rgba(255,255,255,.94);
+  border-bottom:2px solid rgba(0,88,122,.25);
+  box-shadow: 0 10px 26px rgba(0,0,0,.10);
+  backdrop-filter: blur(10px);
+}
+
+.topbar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 0;
+  gap:14px;
+}
+
+.logo-area{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo-area img{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  object-fit:cover;
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
+  border: 2px solid rgba(255,255,255,.35);
+  transition: border-color .25s ease;
+}
+.topbar.scrolled .logo-area img{
+  border-color: rgba(0,88,122,.18);
+}
+
+.logo-text{
+  font-family:"Playfair Display",serif;
+  font-size:24px;
+  font-weight:700;
+  color:#fff; /* en hero: blanco */
+  transition: color .25s ease;
+}
+.topbar.scrolled .logo-text{ color:var(--deep); }
+
+nav{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+nav a{
+  text-decoration:none;
+  font-weight:800;
+  padding:8px 14px;
+  border-radius:999px;
+  border:2px solid rgba(255,255,255,.55);
+  color:#fff;
+  background: rgba(255,255,255,.08);
+  transition:.25s;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+nav a:hover{
+  background: rgba(255,255,255,.18);
+  transform: translateY(-1px);
+}
+.topbar.scrolled nav a{
+  border-color: rgba(0,88,122,.35);
+  color: var(--deep);
+  background: rgba(255,255,255,.75);
+}
+.topbar.scrolled nav a:hover{
+  background: var(--ocean);
+  border-color: var(--ocean);
+  color:#fff;
+}
+
+/* HERO CON IMAGEN */
+.hero{
+  position:relative;
+  background:
+    linear-gradient(rgba(15,48,87,.75), rgba(0,88,122,.75)),
+    url("https://i.postimg.cc/nLhDBZFX/Whats-App-Image-2026-02-18-at-3-03-32-AM.jpg");
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  color:white;
+  text-align:center;
+  padding:175px 0 120px; /* más arriba porque el header es transparente */
+}
+
+.hero h1{
+  font-family:"Playfair Display",serif;
+  font-size:52px;
+  margin:0 0 14px;
+  letter-spacing:.4px;
+}
+
+.hero p{
+  font-size:18px;
+  margin:0 0 28px;
+  opacity:.95;
+  line-height:1.7;
+}
+
+.buttons{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  padding:14px 22px;
+  border-radius:999px;
+  font-weight:900;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  transition:.25s;
+  border:2px solid transparent;
+}
+
+.btn-primary{
+  background:var(--aqua);
+  color:white;
+  box-shadow: 0 10px 24px rgba(0,168,168,.25);
+}
+.btn-primary:hover{ background:#008c8c; transform: translateY(-1px); }
+
+.btn-outline{
+  border:2px solid rgba(255,255,255,.92);
+  color:white;
+  background: transparent;
+}
+.btn-outline:hover{
+  background:white;
+  color:var(--deep);
+  transform: translateY(-1px);
+}
+
+/* SECCIONES */
+section{padding:75px 0;}
+section h2{
+  text-align:center;
+  color:var(--deep);
+  margin:0 0 35px;
+  font-family:"Playfair Display",serif;
+  font-size:28px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:22px;
+}
+
+.card{
+  background:white;
+  padding:22px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  border-top:5px solid var(--aqua);
+}
+
+.card h3{margin:0 0 8px;color:var(--deep);}
+.card p{margin:0;color:#555;line-height:1.7;font-size:14px;}
+
+/* RESEÑAS (SLIDER) */
+.review-shell{
+  background:white;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  border-top:5px solid var(--aqua);
+  padding:26px;
+  overflow:hidden;
+}
+
+.rating-row{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+
+.review-score{
+  font-size:44px;
+  font-weight:900;
+  color:var(--deep);
+  line-height:1;
+}
+
+.review-stars{
+  color:#f4b400;
+  font-size:18px;
+  letter-spacing:1px;
+  margin-top:6px;
+}
+
+.review-sub{
+  color:#666;
+  font-size:13px;
+  font-weight:700;
+  margin-top:6px;
+}
+
+.review-track{
+  position:relative;
+  min-height: 120px;
+}
+
+.review-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transform: translateY(10px);
+  transition: opacity .45s ease, transform .45s ease;
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+}
+
+.review-slide.active{
+  opacity:1;
+  transform: translateY(0);
+}
+
+.review-bubble{
+  background: rgba(244,241,222,.70);
+  border:1px solid rgba(0,88,122,.12);
+  border-radius: 14px;
+  padding:12px;
+  color:#2f2f2f;
+  font-size:14px;
+  line-height:1.6;
+  flex:1;
+}
+.review-bubble b{ color:#1f2d3d; }
+
+.dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:16px;
+}
+.dot{
+  width:9px;height:9px;border-radius:999px;
+  background: rgba(0,88,122,.25);
+  border:1px solid rgba(0,88,122,.25);
+  cursor:pointer;
+  transition:.2s;
+}
+.dot.active{
+  background: var(--ocean);
+  border-color: var(--ocean);
+  transform: scale(1.1);
+}
+
+/* MAPA COMPACTO Y ELEGANTE */
+.map-card{
+  background: rgba(255,255,255,.70);
+  border:1px solid rgba(0,88,122,.14);
+  border-radius:var(--radius);
+  box-shadow:0 12px 30px rgba(0,0,0,.08);
+  padding:16px;
+}
+.map{
+  width:100%;
+  height:260px;
+  border:none;
+  border-radius:16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.12);
+}
+.map-info{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+  font-size:13px;
+  font-weight:800;
+  color:#4b4b4b;
+}
+.map-info a{ color:var(--ocean); text-decoration:none; font-weight:900; }
+.map-info a:hover{ text-decoration:underline; }
+
+footer{
+  background:var(--deep);
+  color:white;
+  text-align:center;
+  padding:40px 0;
+  font-weight:700;
+}
+
+/* WhatsApp flotante redondo */
+.wa-float{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  width:60px;height:60px;
+  background:#25D366;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  box-shadow:0 10px 22px rgba(0,0,0,.28);
+  text-decoration:none;
+  z-index:80;
+  transition:.2s;
+}
+.wa-float:hover{ transform: translateY(-2px); }
+
+/* Animación al scrollear */
+.reveal{
+  opacity:0;
+  transform: translateY(18px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .hero{ background-attachment: scroll; } /* para que no “salte” en algunos celulares */
+  .hero h1{font-size:34px;}
+  nav{display:none;}
+  section h2{font-size:24px;}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar" id="topbar">
+  <div class="wrap topbar-inner">
+    <div class="logo-area">
+      <img src="https://i.postimg.cc/90q0bnTQ/acantilado-bar.jpg" alt="Logo AcantiladoBar">
+      <div class="logo-text">AcantiladoBar</div>
+    </div>
+
+    <nav>
+      <a href="#platos"><i class="fa-solid fa-utensils"></i> Platos</a>
+      <a href="#horarios"><i class="fa-regular fa-clock"></i> Horarios</a>
+      <a href="#resenas"><i class="fa-brands fa-google"></i> Reseñas</a>
+      <a href="#ubicacion"><i class="fa-solid fa-location-dot"></i> Mapa</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap">
+      <h1 class="reveal">Picadas, Tapeo & Tragos</h1>
+      <p class="reveal">Bar de Picadas y Tapeo en Camet Norte. Ambiente relajado y buena comida.</p>
+
+      <div class="buttons reveal">
+        <a href="carta.html" class="btn btn-primary"><i class="fa-solid fa-book"></i> Ver Carta</a>
+        <a href="https://wa.me/message/6NP66RN7DLMSO1" target="_blank" class="btn btn-outline">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </a>
+        <a href="https://instagram.com/acantiladobar" target="_blank" class="btn btn-outline">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1) PLATOS -->
+  <section id="platos">
+    <div class="wrap">
+      <h2 class="reveal">Platos destacados</h2>
+      <div class="grid">
+        <div class="card reveal"><h3>🍤 Rabas</h3><p>Crocantes y con limón.</p></div>
+        <div class="card reveal"><h3>🍟 Papas con Cheddar</h3><p>Perfectas para compartir.</p></div>
+        <div class="card reveal"><h3>🦐 Picada de Mar</h3><p>Sabores del mar.</p></div>
+        <div class="card reveal"><h3>🍔 Hamburguesa Acantilado</h3><p>Explosión de sabor.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) HORARIOS -->
+  <section id="horarios">
+    <div class="wrap">
+      <h2 class="reveal">Horarios</h2>
+      <div class="grid">
+        <div class="card reveal"><h3>🕛 Mediodía</h3><p>12:00 a 16:00</p></div>
+        <div class="card reveal"><h3>🌙 Noche</h3><p>19:00 a 01:00</p></div>
+        <div class="card reveal"><h3>🍻 Happy Hour</h3><p>19:00 a 21:00</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) RESEÑAS SLIDER -->
+  <section id="resenas">
+    <div class="wrap">
+      <h2 class="reveal">Reseñas de Google</h2>
+
+      <div class="review-shell reveal">
+        <div class="rating-row">
+          <div>
+            <div class="review-score">4.8</div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-sub">Basado en 242 reseñas</div>
+          </div>
+          <div style="color:#666;font-weight:700;font-size:13px;max-width:420px;line-height:1.6">
+            Clientes destacan el ambiente, la atención y las opciones para compartir.
+          </div>
+        </div>
+
+        <div class="review-track" id="reviewTrack">
+          <div class="review-slide active">
+            <div class="review-bubble">“<b>Excelente lugar</b>, súper recomendable. Buen ambiente y comida rica.”</div>
+            <div class="review-bubble">“Ideal para ir con amigos, <b>cerca del mar</b> y muy buena atención.”</div>
+          </div>
+
+          <div class="review-slide">
+            <div class="review-bubble">“Las <b>picadas</b> son muy buenas y el <b>happy hour</b> suma un montón.”</div>
+            <div class="review-bubble">“Buen precio y porciones generosas. Volvería <b>sin dudar</b>.”</div>
+          </div>
+
+          <div class="review-slide">
+            <div class="review-bubble">“Ambiente relajado, atención rápida y comida rica. <b>Recomendado</b>.”</div>
+            <div class="review-bubble">“Perfecto para arrancar la noche con <b>tragos</b> y algo para picar.”</div>
+          </div>
+        </div>
+
+        <div class="dots" id="reviewDots" aria-label="Paginación de reseñas">
+          <span class="dot active" data-i="0"></span>
+          <span class="dot" data-i="1"></span>
+          <span class="dot" data-i="2"></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4) MAPA COMPACTO -->
+  <section id="ubicacion">
+    <div class="wrap">
+      <h2 class="reveal">Ubicación</h2>
+
+      <div class="map-card reveal">
+        <iframe class="map" loading="lazy"
+          src="https://www.google.com/maps?q=Manuel%20Quintana%20738%20Camet%20Norte&output=embed">
+        </iframe>
+
+        <div class="map-info">
+          <div>📍 Manuel Quintana 738, Camet Norte</div>
+          <div><a href="https://www.google.com/maps/search/?api=1&query=Manuel%20Quintana%20738%20Camet%20Norte" target="_blank" rel="noopener">Cómo llegar</a></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> AcantiladoBar
+  </footer>
+
+</main>
+
+<!-- WhatsApp flotante redondo -->
+<a class="wa-float" href="https://wa.me/message/6NP66RN7DLMSO1" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script>
+  // Año
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Header: transparente arriba, sólido al scrollear
+  const topbar = document.getElementById("topbar");
+  const onScroll = () => {
+    topbar.classList.toggle("scrolled", window.scrollY > 40);
+  };
+  window.addEventListener("scroll", onScroll);
+  onScroll();
+
+  // Animación suave al scrollear (reveal)
+  const reveals = document.querySelectorAll(".reveal");
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) e.target.classList.add("visible");
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(el => io.observe(el));
+
+  // Slider automático de reseñas
+  const slides = Array.from(document.querySelectorAll(".review-slide"));
+  const dots = Array.from(document.querySelectorAll(".dot"));
+  let idx = 0;
+  let timer = null;
+
+  function setSlide(i){
+    idx = i;
+    slides.forEach((s, n) => s.classList.toggle("active", n === idx));
+    dots.forEach((d, n) => d.classList.toggle("active", n === idx));
+  }
+
+  function start(){
+    stop();
+    timer = setInterval(() => {
+      setSlide((idx + 1) % slides.length);
+    }, 4500);
+  }
+
+  function stop(){
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  dots.forEach(d => {
+    d.addEventListener("click", () => {
+      setSlide(parseInt(d.dataset.i, 10));
+      start();
+    });
+  });
+
+  // pausa cuando el usuario pasa el mouse (PC)
+  const track = document.getElementById("reviewTrack");
+  track.addEventListener("mouseenter", stop);
+  track.addEventListener("mouseleave", start);
+
+  start();
+</script>
+
+</body>
+</html>
