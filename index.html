@@ -577,46 +577,11 @@ footer{
   }, { threshold: 0.12 });
 
   reveals.forEach(el => io.observe(el));
+</script>
 
-  // Slider automático de reseñas
-  const slides = Array.from(document.querySelectorAll(".review-slide"));
-  const dots = Array.from(document.querySelectorAll(".dot"));
-  let idx = 0;
-  let timer = null;
-
-  function setSlide(i){
-    idx = i;
-    slides.forEach((s, n) => s.classList.toggle("active", n === idx));
-    dots.forEach((d, n) => d.classList.toggle("active", n === idx));
-  }
-
-  function start(){
-    stop();
-    timer = setInterval(() => {
-      setSlide((idx + 1) % slides.length);
-    }, 4500);
-  }
-
-  function stop(){
-    if (timer) clearInterval(timer);
-    timer = null;
-  }
-
-  dots.forEach(d => {
-    d.addEventListener("click", () => {
-      setSlide(parseInt(d.dataset.i, 10));
-      start();
-    });
-  });
-
-  // pausa cuando el usuario pasa el mouse (PC)
-  const track = document.getElementById("reviewTrack");
-  track.addEventListener("mouseenter", stop);
-  track.addEventListener("mouseleave", start);
-
-  start();
 </script>
 
 </body>
 </html>
+
 
